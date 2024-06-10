@@ -1,0 +1,99 @@
+name: IAST Testing
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  dast:
+    name: Dynamic Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create isolated network
+        run: docker network create --driver bridge isolated 
+
+      - name: Run PHPCrypfish Container
+        run: docker-compose up -d
+
+      - name: Show running containers
+        run: docker ps
+
+      - name: Check host directory
+        run: |
+              pwd
+              ls -la
+              ls -la db/
+              
+      - name: Copy source code to PHPCrypfish container
+        run: docker cp web2/. blowfish-apache:/var/www/html
+
+      - name: Obfuscate
+        run: docker exec blowfish-apache php -r "PHPCrypfish::obfuscate('/var/www/html/');"
+
+      # Add a step to copy the obfuscated code back to the runner's filesystem
+      - name: Copy code from container
+        run: docker cp blowfish-apache:/var/www/html ./obfuscated_code
+      
+      # Upload the code as an artifact
+      - name: Upload code as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: obfuscated-source-code
+          path: ./obfuscated_code
+
+      - name: Check inside PHPCrypfish container
+        run: |
+          docker exec blowfish-apache ls -la /var/www/html/
+          docker exec blowfish-apache cat /var/www/html/index.php
+          docker exec blowfish-apache php /var/www/html/cek_koneksi.php
+
+      - name: Get AUT URL
+        run: |
+          URL=$(ip -f inet -o addr show docker0 | awk '{print $4}' | cut -d '/' -f 1)
+          echo "URL=$URL" >> $GITHUB_ENV
+
+      - name: Wait for MySQL to be ready
+        run: |
+          until nc -zv ${{ env.URL }} 3306; do echo "Waiting for MySQL to be ready..."; sleep 5; done
+
+      - name: Check AUT URL
+        run: |
+          curl -L http://${{ env.URL }}/index-test.php
+        
+      - name: Context Setup
+        run: |
+          sed -ie "s/AUTURL/${{ env.URL }}/" badcrud.context
+          cat badcrud.context
+          
+      - name: ZAP Scan
+        uses: hermanka/action-full-scan@master
+        with:
+          target: http://${{ env.URL }}
+          network_name: isolated
+          cmd_options: -U "admin" -n badcrud.context
+          
+      - name: stop docker
+        run: docker stop blowfish-apache
+
+  sast:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Check host directory
+        run: |
+              pwd
+              ls -la
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  blowfish-apache:
+    image: loveless2u/phpcrypfish:latest
+    container_name: blowfish-apache
+    ports:
+      - "80:80"
+    depends_on:
+      - mysql-db  
+
+  mysql-db:
+    image: mysql:5.6
+    container_name: blowfish-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: badcrud
+      # MYSQL_USER: db_user
+      # MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/badcrud.sql:/docker-entrypoint-initdb.d/badcrud.sql:ro

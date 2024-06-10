@@ -1,0 +1,94 @@
+name: Performance Testing with Selenium 
+on:
+  push:
+    branches:
+      - main
+jobs:
+  test:
+    name: Functional Test
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Create isolated network
+        run: docker network create --driver bridge isolated      
+
+      - name: Run AUT using docker-compose
+        run: docker-compose up -d
+
+      - name: Show running containers
+        run: docker ps
+      
+      - name: Check host directory
+        run: |
+              pwd
+              ls -la
+              ls -la db/
+              
+      - name: Copy source code to PHPCrypfish container
+        run: docker cp web2/. blowfish-apache:/var/www/html
+
+      - name: Obfuscate
+        run: docker exec blowfish-apache php -r "PHPCrypfish::obfuscate('/var/www/html/');"
+
+      # Add a step to copy the obfuscated code back to the runner's filesystem
+      - name: Copy code from container
+        run: docker cp blowfish-apache:/var/www/html ./obfuscated_code
+      
+      # Upload the code as an artifact
+      - name: Upload code as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: obfuscated-source-code
+          path: ./obfuscated_code
+
+      - name: Check inside PHPCrypfish container
+        run: |
+          docker exec blowfish-apache ls -la /var/www/html/
+          docker exec blowfish-apache cat /var/www/html/index.php
+          docker exec blowfish-apache php /var/www/html/cek_koneksi.php
+
+      - name: Get AUT URL
+        run: |
+          URL=$(ip -f inet -o addr show docker0 | awk '{print $4}' | cut -d '/' -f 1)
+          echo "URL=$URL" >> $GITHUB_ENV
+
+      - name: Wait for MySQL to be ready
+        run: |
+          until nc -zv ${{ env.URL }} 3306; do echo "Waiting for MySQL to be ready..."; sleep 5; done
+
+      - name: Check AUT URL
+        run: |
+          curl -L http://${{ env.URL }}/index-test.php
+
+      - name: Check Server Availability
+        run: |
+          if ! nc -zv ${{ env.URL }} 80; then
+            echo "Server is not available."
+            exit 1
+          fi
+      
+      - name: Selenium Preparation
+        run: docker run --network=isolated -d -p 4444:4444 -p 7900:7900 -v /dev/shm:/dev/shm --name firefox-standalone selenium/standalone-firefox:latest
+
+      - name: Wait for Selenium Hub
+        run: |
+          until curl --output /dev/null --silent --head --fail http://localhost:4444; do
+            echo "waiting for selenium hub to be started"
+            sleep 1
+          done      
+
+      - name: Check the Hub
+        run: curl http://localhost:4444/ui
+
+      - name: Install Selenium client
+        run: pip install -U selenium pytest pytest-xdist
+
+      - name: Run tests using pytest
+        run: |
+          pytest -v -n 5 tests/
+
+      - name: stop docker
+        run: docker stop blowfish-apache
