@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 class InventoryWebsiteTestCase(unittest.TestCase):
     @classmethod
@@ -58,24 +59,33 @@ class InventoryWebsiteTestCase(unittest.TestCase):
                 EC.presence_of_element_located((By.XPATH, '/html/body/section/div/div/div/div/div[2]/form/div[1]/input'))
             )
             username_field.send_keys("adminreal")
+        except TimeoutException:
+            print("Error finding username field: TimeoutException")
+            self.fail("Failed to find username field")
         except Exception as e:
-            print("Error finding username field:", e)
+            print(f"Error finding username field: {e}")
             self.fail("Failed to find username field")
 
         try:
             password_field = self.browser.find_element(By.XPATH,
                 '/html/body/section/div/div/div/div/div[2]/form/div[2]/input')
             password_field.send_keys("adminreal")
+        except TimeoutException:
+            print("Error finding password field: TimeoutException")
+            self.fail("Failed to find password field")
         except Exception as e:
-            print("Error finding password field:", e)
+            print(f"Error finding password field: {e}")
             self.fail("Failed to find password field")
 
         try:
             submit_button = self.browser.find_element(By.XPATH,
                 '/html/body/section/div/div/div/div/div[2]/form/div[3]/input')
             submit_button.click()
+        except TimeoutException:
+            print("Error finding submit button: TimeoutException")
+            self.fail("Failed to find submit button")
         except Exception as e:
-            print("Error finding submit button:", e)
+            print(f"Error finding submit button: {e}")
             self.fail("Failed to find submit button")
 
         try:
@@ -83,8 +93,11 @@ class InventoryWebsiteTestCase(unittest.TestCase):
                 EC.presence_of_element_located((By.TAG_NAME, 'h1'))
             )
             self.assertIn('SELAMAT DATANG, ADMINREAL', heading_element.text)
+        except TimeoutException:
+            print("Error finding heading element: TimeoutException")
+            self.fail("Failed to find heading element")
         except Exception as e:
-            print("Error finding heading element:", e)
+            print(f"Error finding heading element: {e}")
             self.fail("Failed to find heading element")
 
     def logout_check(self):
@@ -97,8 +110,11 @@ class InventoryWebsiteTestCase(unittest.TestCase):
                 EC.presence_of_element_located((By.XPATH, '//*[@id="side-menu"]/li[8]/a'))
             )
             logout_button.click()
+        except TimeoutException:
+            print("Error finding logout button: TimeoutException")
+            self.fail("Failed to find logout button")
         except Exception as e:
-            print("Error finding logout button:", e)
+            print(f"Error finding logout button: {e}")
             self.fail("Failed to find logout button")
 
         # Tunggu dan terima alert konfirmasi logout
@@ -106,8 +122,11 @@ class InventoryWebsiteTestCase(unittest.TestCase):
             WebDriverWait(self.browser, 10).until(EC.alert_is_present())
             alert = self.browser.switch_to.alert
             alert.accept()
+        except TimeoutException:
+            print("Error handling logout alert: TimeoutException")
+            self.fail("Failed to handle logout alert")
         except Exception as e:
-            print("Error handling logout alert:", e)
+            print(f"Error handling logout alert: {e}")
             self.fail("Failed to handle logout alert")
 
     @classmethod
