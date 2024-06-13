@@ -75,7 +75,7 @@ jobs:
         with:
           target: http://${{ env.URL }}
           network_name: isolated
-          cmd_options: -U "admin" -n badcrud.context
+          cmd_options: -U "adminreal" -n badcrud.context
           
       - name: stop docker
         run: docker stop blowfish-apache
