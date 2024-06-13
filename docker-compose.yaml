@@ -13,10 +13,10 @@ services:
     container_name: blowfish-mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: badcrud
+      MYSQL_DATABASE: inventory
       # MYSQL_USER: db_user
       # MYSQL_PASSWORD: password
     ports:
       - "3306:3306"
     volumes:
-      - ./db/badcrud.sql:/docker-entrypoint-initdb.d/badcrud.sql:ro
+      - ./db/inventory.sql:/docker-entrypoint-initdb.d/inventory.sql:ro
