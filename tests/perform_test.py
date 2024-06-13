@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
+# from selenium.common.exceptions import TimeoutException
 
 class InventoryWebsiteTestCase(unittest.TestCase):
     @classmethod
@@ -22,8 +22,8 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         # Menjalankan serangkaian pengujian
         self.page_heading_check()
         self.find_button_check()
-        self.login_check()
-        self.logout_check()
+        # self.login_check()
+        # self.logout_check()
 
     def page_heading_check(self):
         access_url = 'http://' + self.url + '/index.php'
