@@ -25,8 +25,9 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         self.logout_check()
 
     def page_heading_check(self):
-        access_url = 'http://' + self.url + '/index.php'
+        access_url = self.url + '/index.php'
         self.browser.get(access_url)
+        print(f"Accessing URL: {access_url}")
 
         navbar_brand = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'navbar-brand'))
@@ -35,8 +36,9 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         self.assertEqual(navbar_brand.text, 'INVENTORY MANUNGGAL PERALATAN JAHIT')
 
     def find_button_check(self):
-        access_url = 'http://' + self.url + '/index.php'
+        access_url = self.url + '/index.php'
         self.browser.get(access_url)
+        print(f"Accessing URL: {access_url}")
 
         admin_button = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'btn-primary'))
@@ -47,41 +49,66 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         admin_button.click()
 
     def login_check(self):
-        access_url = 'http://' + self.url + '/login.php'
+        access_url = self.url + '/login.php'
         self.browser.get(access_url)
+        print(f"Accessing URL: {access_url}")
 
-        username_field = WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.XPATH, '/html/body/section/div/div/div/div/div[2]/form/div[1]/input'))
-        )
-        username_field.send_keys("adminreal")
+        try:
+            username_field = WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located((By.XPATH, '/html/body/section/div/div/div/div/div[2]/form/div[1]/input'))
+            )
+            username_field.send_keys("adminreal")
+        except Exception as e:
+            print("Error finding username field:", e)
+            self.fail("Failed to find username field")
 
-        password_field = self.browser.find_element(By.XPATH,
-            '/html/body/section/div/div/div/div/div[2]/form/div[2]/input')
-        password_field.send_keys("adminreal")
+        try:
+            password_field = self.browser.find_element(By.XPATH,
+                '/html/body/section/div/div/div/div/div[2]/form/div[2]/input')
+            password_field.send_keys("adminreal")
+        except Exception as e:
+            print("Error finding password field:", e)
+            self.fail("Failed to find password field")
 
-        submit_button = self.browser.find_element(By.XPATH,
-            '/html/body/section/div/div/div/div/div[2]/form/div[3]/input')
-        submit_button.click()
+        try:
+            submit_button = self.browser.find_element(By.XPATH,
+                '/html/body/section/div/div/div/div/div[2]/form/div[3]/input')
+            submit_button.click()
+        except Exception as e:
+            print("Error finding submit button:", e)
+            self.fail("Failed to find submit button")
 
-        heading_element = WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.TAG_NAME, 'h1'))
-        )
-        self.assertIn('SELAMAT DATANG, ADMINREAL', heading_element.text)
+        try:
+            heading_element = WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located((By.TAG_NAME, 'h1'))
+            )
+            self.assertIn('SELAMAT DATANG, ADMINREAL', heading_element.text)
+        except Exception as e:
+            print("Error finding heading element:", e)
+            self.fail("Failed to find heading element")
 
     def logout_check(self):
         # Pastikan pengguna sudah login sebelum mencoba logout
         self.login_check()
 
         # Tunggu dan klik elemen logout
-        logout_button = WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.XPATH, '//*[@id="side-menu"]/li[8]/a'))
-        )
-        logout_button.click()
+        try:
+            logout_button = WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located((By.XPATH, '//*[@id="side-menu"]/li[8]/a'))
+            )
+            logout_button.click()
+        except Exception as e:
+            print("Error finding logout button:", e)
+            self.fail("Failed to find logout button")
 
         # Tunggu dan terima alert konfirmasi logout
-        WebDriverWait(self.browser, 10).until(EC.alert_is_present())
-        alert = self.browser.switch_to.alert
-        alert.accept()
+        try:
+            WebDriverWait(self.browser, 10).until(EC.alert_is_present())
+            alert = self.browser.switch_to.alert
+            alert.accept()
+        except Exception as e:
+            print("Error handling logout alert:", e)
+            self.fail("Failed to handle logout alert")
 
     @classmethod
     def tearDownClass(cls):
