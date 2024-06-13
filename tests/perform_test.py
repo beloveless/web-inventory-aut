@@ -56,7 +56,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
 
         try:
             username_field = WebDriverWait(self.browser, 10).until(
-                EC.presence_of_element_located((By.XPATH, '/html/body/section/div/div/div/div/div[2]/form/div[1]/input'))
+                EC.presence_of_element_located((By.CLASS_NAME, 'form-control'))
             )
             username_field.send_keys("adminreal")
         except TimeoutException:
@@ -67,8 +67,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
             self.fail("Failed to find username field")
 
         try:
-            password_field = self.browser.find_element(By.XPATH,
-                '/html/body/section/div/div/div/div/div[2]/form/div[2]/input')
+            password_field = self.browser.find_element(By.CLASS_NAME, 'form-control')  # Assuming it is the second 'form-control' class
             password_field.send_keys("adminreal")
         except TimeoutException:
             print("Error finding password field: TimeoutException")
@@ -99,6 +98,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         except Exception as e:
             print(f"Error finding heading element: {e}")
             self.fail("Failed to find heading element")
+
 
     def logout_check(self):
         # Pastikan pengguna sudah login sebelum mencoba logout
