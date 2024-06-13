@@ -5,16 +5,8 @@
         <desc/>
         <inscope>true</inscope>
         <!-- Include regex untuk kedua jenis halaman -->
-        <incregexes>
-            <regex>http://AUTURL.*</regex>
-            <regex>http://AUTURL/admin/.*</regex>
-            <regex>http://AUTURL/petugas/.*</regex>
-        </incregexes>
-        <!-- Exclude regex untuk kedua halaman logout -->
-        <excregexes>
-            <regex>http://AUTURL/admin/logout.php</regex>
-            <regex>http://AUTURL/petugas/logout.php</regex>
-        </excregexes>
+        <incregexes>http://AUTURL.*</incregexes>
+        <excregexes>http://AUTURL/admin/logout.php</excregexes>
         <tech>
             <include>Db.MySQL</include>
             <include>Language.PHP</include>
@@ -70,26 +62,18 @@
             <pollfreq>60</pollfreq>
             <pollunits>REQUESTS</pollunits>
             <!-- Pola untuk mendeteksi status login dan logout -->
-            <loggedin>\QPlease sign in\E</loggedin>
-            <loggedout>\QCreate Contact\E</loggedout>
+            <loggedin>\QMASUK\E</loggedin>
+            <loggedout>\QSELAMAT DATANG\E</loggedout>
             <form>
                 <!-- Konfigurasi untuk login admin -->
                 <loginurl>http://AUTURL/admin/login.php</loginurl>
-                <loginbody>username={%username%}&amp;password={%password%}</loginbody>
+                <loginbody>user={%username%}&amp;pass={%password%}&amp;daftar=Masuk</loginbody>
                 <loginpageurl>http://AUTURL/admin/login.php</loginpageurl>
-            </form>
-            <form>
-                <!-- Konfigurasi untuk login petugas -->
-                <loginurl>http://AUTURL/petugas/login.php</loginurl>
-                <loginbody>username={%username%}&amp;password={%password%}</loginbody>
-                <loginpageurl>http://AUTURL/petugas/login.php</loginpageurl>
             </form>
         </authentication>
         <users>
             <!-- Pengguna admin -->
-            <user>220;true;YWRtaW4=;2;YWRtaW4=~bmltZGE2NjYh~</user>
-            <!-- Pengguna petugas -->
-            <user>221;true;YWRtaW4=;2;YWRtaW4=~cGV0dWdhczY2Ng==~</user>
+            <user>220;true;YWRtaW5yZWFs=;2;YWRtaW5yZWFs=~YWRtaW5yZWFs~</user>
         </users>
         <forceduser>220</forceduser>
         <session>
