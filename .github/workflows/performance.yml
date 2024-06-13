@@ -86,6 +86,9 @@ jobs:
       - name: Install Selenium client
         run: pip install -U selenium pytest pytest-xdist
 
+      - name: Check AUT
+        run: curl -L http://${{ env.URL }}
+
       - name: Run tests using pytest
         run: |
           pytest -v tests/

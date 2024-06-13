@@ -25,7 +25,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         self.logout_check()
 
     def page_heading_check(self):
-        access_url = self.url + '/index.php'
+        access_url = 'http://' + self.url + '/index.php'
         self.browser.get(access_url)
         print(f"Accessing URL: {access_url}")
 
@@ -36,7 +36,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         self.assertEqual(navbar_brand.text, 'INVENTORY MANUNGGAL PERALATAN JAHIT')
 
     def find_button_check(self):
-        access_url = self.url + '/index.php'
+        access_url = 'http://' + self.url + '/index.php'
         self.browser.get(access_url)
         print(f"Accessing URL: {access_url}")
 
@@ -49,7 +49,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         admin_button.click()
 
     def login_check(self):
-        access_url = self.url + '/login.php'
+        access_url = 'http://' + self.url + '/login.php'
         self.browser.get(access_url)
         print(f"Accessing URL: {access_url}")
 
