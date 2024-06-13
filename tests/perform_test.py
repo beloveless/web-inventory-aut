@@ -14,7 +14,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
 
         try:
             cls.url = os.environ['URL']  # Mengambil URL dari variabel lingkungan
-        except:
+        except KeyError:
             cls.url = "http://localhost"
 
     def test(self):
@@ -25,13 +25,12 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         self.logout_check()
 
     def page_heading_check(self):
-        access_url = 'http://' + self.url + '/index.php'
+        access_url = self.url + '/index.php'
         self.browser.get(access_url)
 
-        # time.sleep(5)
         navbar_brand = WebDriverWait(self.browser, 10).until(
-             EC.presence_of_element_located((By.CLASS_NAME, 'navbar-brand'))
-         )
+            EC.presence_of_element_located((By.CLASS_NAME, 'navbar-brand'))
+        )
         self.assertIsNotNone(navbar_brand, "Navbar brand element should exist")
         self.assertEqual(navbar_brand.text, 'INVENTORY MANUNGGAL PERALATAN JAHIT')
 
@@ -45,17 +44,21 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         admin_button.click()
 
     def login_check(self):
-        access_url = 'http://' + self.url + '/login.php'
+        access_url = self.url + '/login.php'
         self.browser.get(access_url)
 
-        # time.sleep(5) 
-        WebDriverWait(self.browser, 10).until(
+        username_field = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.XPATH, '/html/body/section/div/div/div/div/div[2]/form/div[1]/input'))
-        ).send_keys("adminreal")
-        self.browser.find_element(By.XPATH,
-            '/html/body/section/div/div/div/div/div[2]/form/div[2]/input').send_keys("adminreal")
-        self.browser.find_element(By.XPATH,
-            '/html/body/section/div/div/div/div/div[2]/form/div[3]/input').click()
+        )
+        username_field.send_keys("adminreal")
+
+        password_field = self.browser.find_element(By.XPATH,
+            '/html/body/section/div/div/div/div/div[2]/form/div[2]/input')
+        password_field.send_keys("adminreal")
+
+        submit_button = self.browser.find_element(By.XPATH,
+            '/html/body/section/div/div/div/div/div[2]/form/div[3]/input')
+        submit_button.click()
 
         heading_element = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.TAG_NAME, 'h1'))
