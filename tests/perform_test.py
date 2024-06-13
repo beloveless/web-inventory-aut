@@ -25,7 +25,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         self.logout_check()
 
     def page_heading_check(self):
-        access_url = self.url + '/index.php'
+        access_url = 'http://' + self.url + '/index.php'
         self.browser.get(access_url)
 
         navbar_brand = WebDriverWait(self.browser, 10).until(
@@ -35,6 +35,9 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         self.assertEqual(navbar_brand.text, 'INVENTORY MANUNGGAL PERALATAN JAHIT')
 
     def find_button_check(self):
+        access_url = 'http://' + self.url + '/index.php'
+        self.browser.get(access_url)
+
         admin_button = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'btn-primary'))
         )
@@ -44,7 +47,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         admin_button.click()
 
     def login_check(self):
-        access_url = self.url + '/login.php'
+        access_url = 'http://' + self.url + '/login.php'
         self.browser.get(access_url)
 
         username_field = WebDriverWait(self.browser, 10).until(
