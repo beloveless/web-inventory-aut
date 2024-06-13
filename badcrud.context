@@ -6,6 +6,7 @@
         <inscope>true</inscope>
         <!-- Include regex untuk kedua jenis halaman -->
         <incregexes>
+            <regex>http://AUTURL.*</regex>
             <regex>http://AUTURL/admin/.*</regex>
             <regex>http://AUTURL/petugas/.*</regex>
         </incregexes>
