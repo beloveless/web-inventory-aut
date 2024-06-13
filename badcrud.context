@@ -4,8 +4,16 @@
         <name>badcrud</name>
         <desc/>
         <inscope>true</inscope>
-        <incregexes>http://AUTURL.*</incregexes>
-        <excregexes>http://AUTURL/logout.php</excregexes>
+        <!-- Include regex untuk kedua jenis halaman -->
+        <incregexes>
+            <regex>http://AUTURL/admin/.*</regex>
+            <regex>http://AUTURL/petugas/.*</regex>
+        </incregexes>
+        <!-- Exclude regex untuk kedua halaman logout -->
+        <excregexes>
+            <regex>http://AUTURL/admin/logout.php</regex>
+            <regex>http://AUTURL/petugas/logout.php</regex>
+        </excregexes>
         <tech>
             <include>Db.MySQL</include>
             <include>Language.PHP</include>
@@ -60,16 +68,27 @@
             <pollheaders/>
             <pollfreq>60</pollfreq>
             <pollunits>REQUESTS</pollunits>
+            <!-- Pola untuk mendeteksi status login dan logout -->
             <loggedin>\QPlease sign in\E</loggedin>
             <loggedout>\QCreate Contact\E</loggedout>
             <form>
-                <loginurl>http://AUTURL/login.php</loginurl>
+                <!-- Konfigurasi untuk login admin -->
+                <loginurl>http://AUTURL/admin/login.php</loginurl>
                 <loginbody>username={%username%}&amp;password={%password%}</loginbody>
-                <loginpageurl>http://AUTURL/login.php</loginpageurl>
+                <loginpageurl>http://AUTURL/admin/login.php</loginpageurl>
+            </form>
+            <form>
+                <!-- Konfigurasi untuk login petugas -->
+                <loginurl>http://AUTURL/petugas/login.php</loginurl>
+                <loginbody>username={%username%}&amp;password={%password%}</loginbody>
+                <loginpageurl>http://AUTURL/petugas/login.php</loginpageurl>
             </form>
         </authentication>
         <users>
+            <!-- Pengguna admin -->
             <user>220;true;YWRtaW4=;2;YWRtaW4=~bmltZGE2NjYh~</user>
+            <!-- Pengguna petugas -->
+            <user>221;true;YWRtaW4=;2;YWRtaW4=~cGV0dWdhczY2Ng==~</user>
         </users>
         <forceduser>220</forceduser>
         <session>
