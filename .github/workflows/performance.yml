@@ -33,22 +33,19 @@ jobs:
       - name: Obfuscate
         run: docker exec blowfish-apache php -r "PHPCrypfish::obfuscate('/var/www/html/');"
 
-      # Add a step to copy the obfuscated code back to the runner's filesystem
       - name: Copy code from container
         run: docker cp blowfish-apache:/var/www/html ./obfuscated_code
       
-      # Upload the code as an artifact
-      - name: Upload code as artifact
+      - name: Hijacking Simulation
         uses: actions/upload-artifact@v3
         with:
-          name: obfuscated-source-code
+          name: source-code-webinventory
           path: ./obfuscated_code
 
       - name: Check inside PHPCrypfish container
         run: |
           docker exec blowfish-apache ls -la /var/www/html/
           docker exec blowfish-apache cat /var/www/html/index.php
-        # docker exec blowfish-apache php /var/www/html/cek_koneksi.php
 
       - name: Get AUT URL
         run: |
