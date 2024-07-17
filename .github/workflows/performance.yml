@@ -94,8 +94,8 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v3
         with:
-          name: selenium-error
-          path: ./screenshots_eror
+          name: screenshots
+          path: screenshots/
 
       - name: stop docker
         run: docker stop blowfish-apache
