@@ -70,7 +70,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
 
         try:
             username_field = WebDriverWait(self.browser, 10).until(
-                EC.presence_of_element_located((By.CLASS_NAME, 'form-control'))
+                EC.presence_of_element_located((By.NAME, 'user'))
             )
             username_field.send_keys("adminreal")
         except Exception as e:
@@ -78,7 +78,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
             raise e
 
         try:
-            password_field = self.browser.find_element(By.CLASS_NAME, 'form-control')  # Assuming it is the second 'form-control' class
+            password_field = self.browser.find_element(By.NAME, 'pass')
             password_field.send_keys("adminreal")
         except Exception as e:
             self.take_screenshot("login_check_password")
