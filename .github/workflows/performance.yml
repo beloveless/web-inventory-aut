@@ -36,11 +36,11 @@ jobs:
       - name: Copy code from container
         run: docker cp blowfish-apache:/var/www/html ./obfuscated_code
       
-      - name: Hijacking Simulation
-        uses: actions/upload-artifact@v3
-        with:
-          name: source-code-webinventory
-          path: ./obfuscated_code
+      # - name: Hijacking Simulation
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: source-code-webinventory
+      #     path: ./obfuscated_code
 
       - name: Check inside PHPCrypfish container
         run: |
@@ -91,7 +91,6 @@ jobs:
           pytest -v tests/
 
       - name: Upload screenshots
-        if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: screenshots

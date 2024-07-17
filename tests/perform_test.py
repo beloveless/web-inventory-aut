@@ -73,23 +73,23 @@ class InventoryWebsiteTestCase(unittest.TestCase):
                 EC.presence_of_element_located((By.NAME, 'user'))
             )
             username_field.send_keys("adminreal")
-        except Exception as e:
             self.take_screenshot("login_check_username")
+        except Exception as e:
             raise e
 
         try:
             password_field = self.browser.find_element(By.NAME, 'pass')
             password_field.send_keys("adminreal")
-        except Exception as e:
             self.take_screenshot("login_check_password")
+        except Exception as e:
             raise e
 
         try:
             submit_button = self.browser.find_element(By.XPATH,
                 '/html/body/section/div/div/div/div/div[2]/form/div[3]/input')
             submit_button.click()
-        except Exception as e:
             self.take_screenshot("login_check_submit")
+        except Exception as e:
             raise e
 
         try:
@@ -97,6 +97,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
                 EC.presence_of_element_located((By.TAG_NAME, 'h1'))
             )
             self.assertIn('SELAMAT DATANG, ADMINREAL', heading_element.text)
+            self.take_screenshot("login_check_heading1")
         except Exception as e:
             self.take_screenshot("login_check_heading")
             raise e
