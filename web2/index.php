@@ -112,9 +112,9 @@
           <div class="col-lg-12 zero-panel-content login-box">
             <h1>Login as ....</h1>
             <div class="btn-box">
-              <a href="admin/login.php" target="_blank" class="btn btn-primary btn-lg">ADMIN</a>
+              <a href="admin/login.php" class="btn btn-primary btn-lg">ADMIN</a>
               <br><br>
-              <a href="petugas/login_petugas.php" target="_blank" class="btn btn-warning btn-lg">KARYAWAN</a>
+              <a href="petugas/login_petugas.php" class="btn btn-warning btn-lg">KARYAWAN</a>
             </div>
           </div>
         </div>
