@@ -91,6 +91,7 @@ jobs:
           pytest -v tests/
 
       - name: Upload screenshots
+        if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: screenshots
