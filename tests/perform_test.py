@@ -1,5 +1,6 @@
 import unittest
 import os
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -58,6 +59,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
             self.assertEqual(admin_button.text, 'ADMIN')
 
             admin_button.click()
+            time.sleep(5)
         except Exception as e:
             self.take_screenshot("find_button_check")
             raise e
