@@ -64,7 +64,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
             raise e
 
     def login_check(self):
-        access_url = 'http://' + self.url + '/login.php'
+        access_url = 'http://' + self.url + '/admin/login.php'
         self.browser.get(access_url)
         print(f"Accessing URL: {access_url}")
 
