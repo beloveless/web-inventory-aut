@@ -42,12 +42,6 @@ jobs:
       #     name: source-code-webinventory
       #     path: ./obfuscated_code
 
-      - name: Check inside PHPCrypfish container
-        run: |
-          docker exec blowfish-apache ls -la /var/www/html/
-          docker exec blowfish-apache cat /var/www/html/index.php
-          docker exec blowfish-apache php /var/www/html/cek_koneksi.php
-
       - name: Get AUT URL
         run: |
           URL=$(ip -f inet -o addr show docker0 | awk '{print $4}' | cut -d '/' -f 1)
@@ -56,6 +50,12 @@ jobs:
       - name: Wait for MySQL to be ready
         run: |
           until nc -zv ${{ env.URL }} 3306; do echo "Waiting for MySQL to be ready..."; sleep 5; done
+
+      - name: Check inside PHPCrypfish container
+        run: |
+            docker exec blowfish-apache ls -la /var/www/html/
+            docker exec blowfish-apache cat /var/www/html/index.php
+            docker exec blowfish-apache php /var/www/html/cek_koneksi.php
 
       - name: Check AUT URL
         run: |
