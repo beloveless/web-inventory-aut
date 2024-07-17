@@ -85,6 +85,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
             raise e
 
         try:
+            self.take_screenshot("login_check_submit0")
             submit_button = self.browser.find_element(By.XPATH,
                 '/html/body/section/div/div/div/div/div[2]/form/div[3]/input')
             submit_button.click()
