@@ -19,8 +19,11 @@ jobs:
       - name: Build AUT
         run: docker build -t my-php-site:latest .
 
-      - name: Run PHPCrypfish Container
+      - name: Run AUT using docker-compose
         run: docker-compose up -d
+
+      - name: Show running containers
+        run: docker ps
               
       - name: Copy source code to PHPCrypfish container
         run: docker cp web2/. blowfish-apache:/var/www/html
