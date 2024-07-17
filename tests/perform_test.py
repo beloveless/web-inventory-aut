@@ -59,7 +59,7 @@ class InventoryWebsiteTestCase(unittest.TestCase):
             self.assertEqual(admin_button.text, 'ADMIN')
 
             admin_button.click()
-            time.sleep(5)
+            time.sleep(15)
         except Exception as e:
             self.take_screenshot("find_button_check")
             raise e
