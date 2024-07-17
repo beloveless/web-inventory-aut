@@ -36,11 +36,11 @@ jobs:
       - name: Copy code from container
         run: docker cp blowfish-apache:/var/www/html ./obfuscated_code
       
-      # - name: Hijacking Simulation
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: source-code-webinventory
-      #     path: ./obfuscated_code
+      - name: Hijacking Simulation
+        uses: actions/upload-artifact@v3
+        with:
+          name: source-code-webinventory
+          path: ./obfuscated_code
 
       - name: Get AUT URL
         run: |
@@ -49,7 +49,7 @@ jobs:
 
       - name: Wait for MySQL to be ready
         run: |
-          until nc -zv ${{ env.URL }} 3306; do echo "Waiting for MySQL to be ready..."; sleep 5; done
+          until nc -zv ${{ env.URL }} 3306; do echo "Waiting for MySQL to be ready..."; sleep 50; done
 
       - name: Check inside PHPCrypfish container
         run: |
