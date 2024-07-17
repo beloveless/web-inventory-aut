@@ -8,14 +8,21 @@ services:
     depends_on:
       - mysql-db  
 
+  docker-apache:
+    image: my-php-site:latest
+    container_name: docker-apache
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql-db  
+
   mysql-db:
     image: mysql:5.6
     container_name: blowfish-mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: inventory
-      # MYSQL_USER: db_user
-      # MYSQL_PASSWORD: password
+
     ports:
       - "3306:3306"
     volumes:

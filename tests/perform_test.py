@@ -29,7 +29,6 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         self.page_heading_check()
         self.find_button_check()
         self.login_check()
-        # self.logout_check()
 
     def page_heading_check(self):
         access_url = 'http://' + self.url + '/index.php'
@@ -102,29 +101,6 @@ class InventoryWebsiteTestCase(unittest.TestCase):
         except Exception as e:
             self.take_screenshot("login_check_heading")
             raise e
-
-    # def logout_check(self):
-    #     # Pastikan pengguna sudah login sebelum mencoba logout
-    #     self.login_check()
-
-    #     # Tunggu dan klik elemen logout
-    #     try:
-    #         logout_button = WebDriverWait(self.browser, 10).until(
-    #             EC.presence_of_element_located((By.XPATH, '//*[@id="side-menu"]/li[8]/a'))
-    #         )
-    #         logout_button.click()
-    #     except Exception as e:
-    #         self.take_screenshot("logout_check")
-    #         raise e
-
-    #     # Tunggu dan terima alert konfirmasi logout
-    #     try:
-    #         WebDriverWait(self.browser, 10).until(EC.alert_is_present())
-    #         alert = self.browser.switch_to.alert
-    #         alert.accept()
-    #     except Exception as e:
-    #         self.take_screenshot("logout_alert")
-    #         raise e
 
     @classmethod
     def tearDownClass(cls):

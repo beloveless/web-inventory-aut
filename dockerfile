@@ -1,53 +1,16 @@
-    FROM ubuntu:18.04
+FROM php:8.0-apache
 
-    ENV DEBIAN_FRONTEND=noninteractive
-
-    # Install dependencies
-    RUN apt-get update  > /dev/null && \
+RUN apt-get update && \
     apt-get install -y \
-            software-properties-common \
-            apt-transport-https \
-            git \
-            gcc \
-            make \
-            re2c \
-            apache2 \
-            apache2-utils > /dev/null
+        libzip-dev \
+        unzip \
+        && \
+    docker-php-ext-install pdo_mysql && \
+    a2enmod rewrite && \
+    service apache2 restart
 
-    # Add PHP PPA for additional PHP versions
-    RUN add-apt-repository -y ppa:ondrej/php
+WORKDIR /var/www/html
 
-    # Update dependencies
-    RUN apt-get update > /dev/null
+COPY ./web2 ./
 
-    # Install specific PHP version and other packages
-    RUN apt-get install -y php7.2 \
-            php7.2-json \
-            php7.2-dev \
-            libpcre3-dev \
-            php7.2-mysql \
-            curl \
-            libboost-all-dev > /dev/null && \
-            a2enmod rewrite > /dev/null
-    
-    # Clone PHP-CPP repository
-    RUN git clone https://github.com/CopernicaMarketingSoftware/PHP-CPP.git ./PHP-CPP \
-            && cd ./PHP-CPP \
-            && make -s \
-            && make install -s
-
-    # Install PHPCrypfish
-    RUN git clone https://github.com/beloveless/NGPHPCrypfish-code.git \
-            && cd ./NGPHPCrypfish-code \
-            && make clean -s \
-            && make -s \
-            && make install -s \
-            && phpenmod -v 7.2 phpcrypfish 
-
-    # Set working directory
-    WORKDIR /var/www/html
-    RUN rm -rf *
-
-    EXPOSE 80
-
-    CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+EXPOSE 80
