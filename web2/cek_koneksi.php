@@ -7,7 +7,8 @@ function pdo_connect(){
     $DATABASE_NAME = 'inventory';
     try {
         echo "Connected to MySQL successfully";
-    	return new PDO('mysql:host=' . $DATABASE_HOST . ';dbname=' . $DATABASE_NAME, $DATABASE_USER, $DATABASE_PASS);
+        $pdo=new PDO('mysql:host=' . $DATABASE_HOST . ';dbname=' . $DATABASE_NAME, $DATABASE_USER, $DATABASE_PASS);
+    	return $pdo;
     } catch(Exception $e) {
         return $e;
     }    
