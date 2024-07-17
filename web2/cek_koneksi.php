@@ -15,7 +15,7 @@ function pdo_connect(){
 }
 
 var_dump(pdo_connect());
-if ( pdo_connect() ) {
+if ( $pdo = pdo_connect() ) {
     echo "connected\n";
 
     try {
