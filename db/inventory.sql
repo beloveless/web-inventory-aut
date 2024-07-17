@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Sep 22, 2020 at 04:55 AM
--- Server version: 10.4.13-MariaDB
--- PHP Version: 7.4.8
+-- Host: 127.0.0.1
+-- Generation Time: Jul 17, 2024 at 05:28 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,15 +34,15 @@ CREATE TABLE `tb_admin` (
   `nama` varchar(255) NOT NULL,
   `telepon` varchar(255) NOT NULL,
   `foto` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_admin`
 --
 
 INSERT INTO `tb_admin` (`id_admin`, `username`, `password`, `nama`, `telepon`, `foto`) VALUES
-(12, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', '0812838281', '22092020020607employee1.png'),
-(19, 'user', 'ee11cbb19052e40b07aac0ca060c23ee', 'user 1', '0812838281', '22092020020520employee3.png');
+(19, 'user', 'ee11cbb19052e40b07aac0ca060c23ee', 'user 1', '0812838281', '22092020020520employee3.png'),
+(21, 'adminreal', 'b95128fe4b724728a47799538ee026e8', 'adminreal', '08632564165', '');
 
 -- --------------------------------------------------------
 
@@ -59,7 +59,7 @@ CREATE TABLE `tb_ajuan` (
   `jml_ajuan` int(11) NOT NULL,
   `petugas` varchar(255) NOT NULL,
   `val` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_ajuan`
@@ -85,7 +85,7 @@ CREATE TABLE `tb_barang` (
   `stok` int(11) NOT NULL,
   `rak` varchar(255) NOT NULL,
   `supplier` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_barang`
@@ -117,7 +117,7 @@ CREATE TABLE `tb_barang_in` (
   `jml_masuk` int(11) NOT NULL,
   `jam` varchar(255) NOT NULL,
   `petugas` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_barang_in`
@@ -148,7 +148,7 @@ CREATE TABLE `tb_barang_out` (
   `jml_ajuan` int(11) NOT NULL,
   `jml_keluar` int(11) NOT NULL,
   `admin` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_barang_out`
@@ -172,7 +172,7 @@ CREATE TABLE `tb_petugas` (
   `password` varchar(255) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `telepon` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_petugas`
@@ -195,7 +195,7 @@ INSERT INTO `tb_petugas` (`id_petugas`, `username`, `password`, `nama`, `telepon
 CREATE TABLE `tb_rak` (
   `id_rak` int(11) NOT NULL,
   `nama_rak` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_rak`
@@ -219,7 +219,7 @@ CREATE TABLE `tb_sup` (
   `kontak_sup` varchar(255) NOT NULL,
   `alamat_sup` text NOT NULL,
   `telepon_sup` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_sup`
@@ -292,7 +292,7 @@ ALTER TABLE `tb_sup`
 -- AUTO_INCREMENT for table `tb_admin`
 --
 ALTER TABLE `tb_admin`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tb_ajuan`
