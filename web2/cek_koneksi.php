@@ -1,18 +1,20 @@
 <?php
+function pdo_connect() {
+    $host = 'mysql-db';
+    $dbname = 'inventory';
+    $username = 'root';
+    $password = 'password';
 
-function pdo_connect(){
-    $DATABASE_HOST = 'mysql-db';
-    $DATABASE_USER = 'root';
-    $DATABASE_PASS = 'password';
-    $DATABASE_NAME = 'inventory';
     try {
-        echo "Connected to MySQL successfully";
-        $pdo=new PDO('mysql:host=' . $DATABASE_HOST . ';dbname=' . $DATABASE_NAME, $DATABASE_USER, $DATABASE_PASS);
-    	return $pdo;
-    } catch(Exception $e) {
-        return $e;
-    }    
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $pdo;
+    } catch (PDOException $e) {
+        echo 'Connection failed: ' . $e->getMessage();
+        return false;
+    }
 }
+
 
 var_dump(pdo_connect());
 if ( $pdo = pdo_connect() ) {
@@ -30,9 +32,7 @@ if ( $pdo = pdo_connect() ) {
         echo 'Query failed: ' . $e->getMessage();
     }
 
-    
 } else {
     echo "failed to connect";
 }
 ?>
-
