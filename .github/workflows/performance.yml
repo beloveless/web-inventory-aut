@@ -49,7 +49,7 @@ jobs:
 
       - name: Wait for MySQL to be ready
         run: |
-          until nc -zv ${{ env.URL }} 3306; do echo "Waiting for MySQL to be ready..."; sleep 50; done
+          until nc -zv ${{ env.URL }} 3306; do echo "Waiting for MySQL to be ready..."; sleep 5; done
 
       - name: Check inside PHPCrypfish container
         run: |
